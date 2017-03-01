@@ -5,8 +5,8 @@ import urllib2
 
 
 config = pdfkit.configuration(wkhtmltopdf='./wkhtmltox/bin/wkhtmltopdf')
-def get_problem_statement(url):
-    pd = pdfkit.from_url(url,"test_output",configuration=config)
+def get_problem_statement(url,output_file):
+    pd = pdfkit.from_url(url,output_file,configuration=config)
 
 
-get_problem_statement("http://codeforces.com/contest/778/problem/A")
+get_problem_statement("http://codeforces.com/contest/778/problem/A","A_file.pdf")
