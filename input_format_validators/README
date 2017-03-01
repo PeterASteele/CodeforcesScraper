@@ -1,0 +1,28 @@
+An input format validator is a program that checks that input files
+adhere to the problem specifications.
+
+The input format validator should read an input file on stdin. If the
+input file satisfies the specifications, the validator exits with exit
+code 42. Any other behaviour from the validator (such as a crash, or
+exiting with exit code 0), means the input file was not accepted.
+
+Input format validators should be as pedantic as possible.  In
+particular, they should complain if the input file contains spurious
+spacing, or if the input file contains extra data after the last test
+data (e.g., if the input file is supposed to contain a line with three
+integers but actually contains two such lines, or even just an empty
+second line, that should be detected).
+
+It is usually convenient to write these in Python using regular
+expressions.  See the input format validator for the example problem
+"different" for an illustration of this.
+
+If there is more than one input format validator, an input file is
+considered OK if all the input format validators accept it, and
+rejected otherwise.
+
+The input format validator can print extra information to stdout and
+stderr at its leisure.
+
+Unlike output validators, problem.yaml has no effect on how (or
+whether) input format validators are run.
