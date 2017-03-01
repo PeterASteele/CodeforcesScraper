@@ -6,6 +6,7 @@ import sys
 
 from bs4 import BeautifulSoup
 
+
 cookie = None
 
 
@@ -68,66 +69,67 @@ def load_contest(folder, contest_number):
 
 
 if __name__ == '__main__':
-    # if len(sys.argv) != 3:
+    #if len(sys.argv) != 3:
     #    print('This can only be called with 2 arguments. Date, and contest number')
     #    exit(-1)
-    req = requests.get(str(sys.argv[1]))
-    count = 0
-    indexOfInputData = []
-    indexOfOutputData = []
+   req = requests.get(str(sys.argv[1]));
+   count = 0;
+   indexOfInputData = [];
+   indexOfOutputData = [];
+   
+   inputOutput = [];
+   outputOutput = [];
 
-    inputOutput = []
-    outputOutput = []
-
-    lines_of_req = req.text.split('\n')
-    for line in lines_of_req:
-        if 'file input-' in line:
-            indexOfInputData.append(count)
-        if 'file output-' in line:
-            indexOfOutputData.append(count)
-        count = count + 1
-
-    for idx in indexOfInputData:
-        inFile = ""
-        for i in xrange(1, 100000000):
-            s = lines_of_req[idx + 2 + i - 1]
-            if "<pre>" in s:
-                s = s[s.find("<pre>") + len("<pre>"):]
-            if "</pre>" in s:
-                s = s[:s.find("</pre>")]
-                inFile += s
-                break
-            inFile += s + "\n"
-        inputOutput.append(inFile)
-    # print(inputOutput)
-    for idx in indexOfOutputData:
-        inFile = ""
-        for i in xrange(1, 100000000):
-            s = lines_of_req[idx + 2 + i - 1]
-            if "<pre>" in s:
-                s = s[s.find("<pre>") + len("<pre>"):]
-            if "</pre>" in s:
-                s = s[:s.find("</pre>")]
-                inFile += s
-                break
-            inFile += s + "\n"
-        outputOutput.append(inFile)
-    # print("\n".join(outputOutput))
-    both = zip(inputOutput, outputOutput)
-    # print('\n\n\n\n\n\n'.join(['Input:\n' + inn + "\nOutput:\n" + out for inn,out in both]))
-    samplecases = 2
-    count = 1
-    for inn, out in both:
-        if "..." in inn + out:
-            continue
-        else:
-            prefix = "secret/secret-"
-            sub = samplecases
-            if count < samplecases + 1:
-                prefix = "sample/sample-"
-                sub = 0
-            with open(prefix + str(count - sub) + ".in", "w") as f:
-                f.write(inn)
-            with open(prefix + str(count - sub) + ".ans", "w") as f:
-                f.write(out)
-        count += 1
+   lines_of_req = req.text.split('\n')
+   for line in lines_of_req:
+     if 'file input-' in line:
+       indexOfInputData.append(count);
+     if 'file output-' in line:
+       indexOfOutputData.append(count);
+     count = count + 1;
+   
+   for idx in indexOfInputData:
+       inFile = ""
+       for i in xrange(1, 100000000):
+         s = lines_of_req[idx+2 + i - 1]
+         if "<pre>" in s:
+             s = s[s.find("<pre>") + len("<pre>"):]
+         if "</pre>" in s:
+             s = s[:s.find("</pre>")]
+             inFile += s
+             break;
+         inFile += s + "\n"
+       inputOutput.append(inFile)
+   #print(inputOutput)
+   for idx in indexOfOutputData:
+       inFile = ""
+       for i in xrange(1, 100000000):
+         s = lines_of_req[idx+2 + i - 1]
+         if "<pre>" in s:
+             s = s[s.find("<pre>") + len("<pre>"):]
+         if "</pre>" in s:
+             s = s[:s.find("</pre>")]
+             inFile += s
+             break;
+         inFile += s + "\n"
+       outputOutput.append(inFile)
+   #print("\n".join(outputOutput))               
+   both = zip(inputOutput,outputOutput)
+   #print('\n\n\n\n\n\n'.join(['Input:\n' + inn + "\nOutput:\n" + out for inn,out in both]))
+   samplecases = 2
+   count = 1;
+   for inn,out in both:
+     if "..." in inn+out:
+       continue;
+     else:
+       prefix = "secret/secret-"
+       sub = samplecases
+       if count < samplecases+1:
+         prefix = "sample/sample-"
+         sub = 0
+       with open(prefix+str(count-sub)+".in", "w") as f:
+         f.write(inn)
+       with open(prefix+str(count-sub)+".ans", "w") as f:
+         f.write(out)
+     count+=1;
+ 

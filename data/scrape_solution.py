@@ -3,7 +3,8 @@ import json
 import requests
 import os
 import sys
-
+import HTMLParser 
+import re
 from bs4 import BeautifulSoup
 
 
@@ -73,22 +74,37 @@ if __name__ == '__main__':
     #    print('This can only be called with 2 arguments. Date, and contest number')
     #    exit(-1)
    req = requests.get(str(sys.argv[1]));
+   startIdxOfCode = 0;
    count = 0;
-   indexOfInputData = [];
-   indexOfOutputData = [];
-   
-   inputOutput = [];
-   outputOutput = [];
+   codeOutput = [];
 
    lines_of_req = req.text.split('\n')
    for line in lines_of_req:
-     if 'file input-' in line:
-       indexOfInputData.append(count);
-     if 'file output-' in line:
-       indexOfOutputData.append(count);
+     if 'class="prettyprint lang-java program-source"' in line:
+       startIdxOfCode = count;
      count = count + 1;
+   numberOfOpenBrackets = 0;
+   for i in xrange(startIdxOfCode, 1000000000000):
+     for j in lines_of_req[i]:
+       if j == "<":
+         numberOfOpenBrackets+=1;
+         continue
+       if j == ">":
+         numberOfOpenBrackets-=1;
+         continue
+       if numberOfOpenBrackets == 0:
+         codeOutput.append(j)
+     codeOutput.append("\n")
+     if "</pre>" in lines_of_req[i]:
+       break
+   codeOutput = ("".join(codeOutput));
+   codeOutput = HTMLParser.HTMLParser().unescape(codeOutput);
+   codeOutput = re.sub('public class', 'public class B { //', codeOutput);
    
-   for idx in indexOfInputData:
+   with open("B.java", "w") as f:
+     f.write(codeOutput)
+
+""" for idx in indexOfInputData:
        inFile = ""
        for i in xrange(1, 100000000):
          s = lines_of_req[idx+2 + i - 1]
@@ -132,4 +148,4 @@ if __name__ == '__main__':
        with open(prefix+str(count-sub)+".ans", "w") as f:
          f.write(out)
      count+=1;
- 
+"""
