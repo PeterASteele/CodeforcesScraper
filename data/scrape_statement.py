@@ -5,7 +5,7 @@ import urllib2
 import re
 config = pdfkit.configuration(wkhtmltopdf='./wkhtmltox/bin/wkhtmltopdf')
 def get_problem_statement(url,output_file):
-    url_results = urllib2.urlopen(url).read()
+    '''url_results = urllib2.urlopen(url).read()
     soup = BeautifulSoup(url_results)
     val = soup.find("div", attrs={"class": re.compile('ttypography')})
     head_val = soup.find("head")
@@ -21,8 +21,8 @@ def get_problem_statement(url,output_file):
     val.find("div", attrs={"class" :  re.compile("input-file")}).extract()
     val.find("div", attrs={"class" :  re.compile("output-file")}).extract()
     html_string = "<html>" + unicode(head_val.prettify()) + "<body>" + unicode(val.prettify()) + "</body></html>"
-    print(html_string.encode(encoding="UTF-8", errors="ignore"))
-  #pdfkit.from_string(html_string, output_file, configuration=config)
+    print(html_string.encode(encoding="UTF-8", errors="ignore"))'''
+    pdfkit.from_url(url, output_file, configuration=config)
 
 if __name__ == "__main__":
 	argv = sys.argv

@@ -3,10 +3,10 @@
 
 
 var fs = require('fs');
-var f = fs.open('temp.file', 'r');
+var f = fs.open('html.file', 'r');
 var content = f.read();
 var page = require('webpage').create();
-page.viewportSize = { width: 300000000, height : 50000000000 };
+page.viewportSize = { width: 3000, height : 5000 };
 /*page.evaluate(function() {
     var el = document.getElementById('surface'),
         context = el.getContext('2d'),
@@ -55,7 +55,21 @@ page.viewportSize = { width: 300000000, height : 50000000000 };
 
 page.content = content;
 
-page.render("image.png");
+page.onError = function(msg, trace) {
+
+  var msgStack = ['ERROR: ' + msg];
+
+  if (trace && trace.length) {
+    msgStack.push('TRACE:');
+    trace.forEach(function(t) {
+      msgStack.push(' -> ' + t.file + ': ' + t.line + (t.function ? ' (in function "' + t.function +'")' : ''));
+    });
+  }
+
+  console.error(msgStack.join('\n'));
+
+};
+page.render("problem-statement.png");
 
 
 phantom.exit();
