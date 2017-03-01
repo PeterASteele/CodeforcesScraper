@@ -20,7 +20,9 @@ def get_problem_statement(url,output_file):
     val.find("div", attrs={"class" :  re.compile("memory-limit")}).extract()
     val.find("div", attrs={"class" :  re.compile("input-file")}).extract()
     val.find("div", attrs={"class" :  re.compile("output-file")}).extract()
-    pdfkit.from_string("<html>" + unicode(head_val.prettify()) + "<body>" + unicode(val.prettify()) + "</body></html>", output_file, configuration=config)
+    html_string = "<html>" + unicode(head_val.prettify()) + "<body>" + unicode(val.prettify()) + "</body></html>"
+    print(html_string.encode(encoding="UTF-8", errors="ignore"))
+  #pdfkit.from_string(html_string, output_file, configuration=config)
 
 if __name__ == "__main__":
 	argv = sys.argv

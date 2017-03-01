@@ -1,3 +1,5 @@
+rm -rf sample
+rm -rf secret
 mkdir sample
 mkdir secret
 python scrape_solution.py "$1"
