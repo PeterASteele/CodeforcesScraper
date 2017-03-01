@@ -1,7 +1,9 @@
 #!/bin/bash
 
 javac B.java
-for n in `seq 1 $2`; do
+var=$(ls -l $1 | grep ans | wc -l)
+
+for n in `seq 1 ${var}`; do
         #java TestGen > $1/$1-$n.in 
         #java TestGen > $1/$1-$n.in
         java B < $1/$1-$n.in > $1/$1-$n-us.ans
